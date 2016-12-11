@@ -17,6 +17,7 @@ public class Bullet extends Actor
     private int _speed;
     private Tank.Type _ownerType;
     private Tank _owner;
+    //private World _BattleCityWorld;
     
     private final GreenfootSound _notPiercedSound = new GreenfootSound("armor_not_pierced_by_player_01.mp3");
     private final GreenfootSound _vehicleDestroyed = new GreenfootSound("vehicle_destroyed_01.mp3");
@@ -26,6 +27,7 @@ public class Bullet extends Actor
         _speed = speed;
         _ownerType = ownerType;
         _owner = owner;
+        //_BattleCityWorld = getWorld();
         
         _owner.setBulletFired(true);
         

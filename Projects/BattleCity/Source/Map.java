@@ -11,10 +11,12 @@ public class Map
     private World world;
     
     private int _offset = 0;
-    private int _mapSize;
+    private int _blocks;
     private int _blockSize;
+    private int _countBlock = 4;
+    private int x = 16;
+    private int y = 16;
     
-    // instance variables - replace the example below with your own
     private int[][] mapObjects = { {0,0,0,0,0,0,0,0,0,0,0,0,0},
                                    {0,1,0,1,0,1,0,1,0,1,0,1,0},
                                    {0,1,0,1,0,1,0,1,0,1,0,1,0},
@@ -22,7 +24,7 @@ public class Map
                                    {0,1,0,1,0,1,0,1,0,1,0,1,0},
                                    {0,1,0,1,0,0,0,0,0,1,0,1,0},
                                    {0,0,0,0,0,1,1,1,0,0,0,0,0},
-                                   {2,1,1,1,0,3,3,3,0,1,1,1,2},
+                                   {2,1,1,1,0,0,0,0,0,1,1,1,2},
                                    {0,0,0,0,0,1,0,1,0,0,0,0,0},
                                    {0,1,0,1,0,1,1,1,0,1,0,1,0},
                                    {0,1,0,1,0,1,0,1,0,1,0,1,0},
@@ -30,38 +32,23 @@ public class Map
                                    {0,0,0,0,0,0,0,0,0,0,0,0,0}
                                  };
  
-    public Map( int mapSize, int blockSize)
+    public Map( int blocks, int blockSize)
     {        
-        _mapSize = mapSize;
+        _blocks = blocks;
         _blockSize = blockSize;
     }
     
     public void build(World world)
     {
-        
-        
-        // GreenfootImage background = world.getBackground();
-        // background.setColor(Color.WHITE);
-        // int size = background.getHeight();
+        Wall[][][] wall = new Wall[_blocks][_blocks][_countBlock];
+        Bonus[][] bonuses = new Bonus[_blocks][_blocks];
        
-        // for (int i = 1; i < 14; i++) {
-            // background.drawLine(64*i, 0, 64*i, size);//832 - размер поля боя
-            // background.drawLine(0, 64*i, size, 64*i);
-        // }
        
-        Wall[][][] wall = new Wall[13][13][4];
-        Bonus[][] bonuses = new Bonus[13][13];
-       
-        int x = 16;
-        int y = 16;
-       
-        for (int i = 0; i < 13; i++)
+        for (int i = 0; i < _blocks; i++)
         {
-            for (int j = 0; j < 13; j++)
+            for (int j = 0; j < _blocks; j++)
             {
-                //if ( mapObjects[i][j] == 3) {bonuses[i][j] = new Bonus();}//Бонусы
-                
-                for ( int k = 0; k < 4; k++ )
+                for ( int k = 0; k < _countBlock; k++ )
                 {
                     if ( mapObjects[i][j] == 1) {wall[i][j][k] = new Brick();}
                     if ( mapObjects[i][j] == 2) {wall[i][j][k] = new Stone();}
@@ -70,17 +57,16 @@ public class Map
         }
        
        
-        for (int i = 0; i < 13; i++)
+        for (int i = 0; i < _blocks; i++)
         {
-            for (int j = 0; j < 13; j++)
+            for (int j = 0; j < _blocks; j++)
             {
                 int _x = x + 64*j;
                 int _y = y + 64*i;
-                //if ( mapObjects[i][j] == 3 ) {world.addObject(bonuses[i][j], _x + 16, _y + 16);}
                 
                 if ( mapObjects[i][j] == 1 || mapObjects[i][j] == 2 )
                 {
-                    for (int k = 0; k < 4; k++)
+                    for (int k = 0; k < _countBlock; k++)
                     {
                         if ( k < 2 )
                         {
@@ -88,14 +74,7 @@ public class Map
                         }
                         else
                         {  
-                            if ( k == 2)
-                            {
-                                world.addObject(wall[i][j][k], _x + 32, _y + (k - 2)*32);
-                            }
-                            else
-                            {
-                                world.addObject(wall[i][j][k], _x + 32, _y + (k - 2)*32);
-                            }
+                            world.addObject(wall[i][j][k], _x + 32, _y + (k - 2)*32);
                         }
                     }
                 }
@@ -110,7 +89,7 @@ public class Map
     
     public int getSize()
     {
-        return _mapSize * _blockSize;
+        return _blocks * _blockSize;
     }
     
     public boolean isInside(int x, int y)

@@ -27,6 +27,7 @@ public class BattleCity extends World
     
     private Map _map = new Map(blocks, blockSize);
     private GameState _state = GameState.GAME;
+    private Camp camp = new Camp();
     
     
     public BattleCity()
@@ -36,6 +37,8 @@ public class BattleCity extends World
         GreenfootImage background = getBackground();
         background.setColor(Color.BLACK);
         background.fill();
+        
+        addObject(camp, 416, 800);
         
         prepare();
     }
@@ -77,9 +80,6 @@ public class BattleCity extends World
      */
     private void prepare()
     {
-        Camp camp = new Camp();
-        addObject(camp, 416, 800);
-        
         Tank tankPlayer1 = new Tank(Tank.Type.PLAYER_1);
         addObject(tankPlayer1,225,800);
         
@@ -98,6 +98,9 @@ public class BattleCity extends World
         
         //Bonus bonus = new Bonus(); //тест бонуса лопата
         //addObject(bonus, 290, 736);
+        
+        Tank tankEnemyBonus = new Tank(Tank.Type.BONUS_ENEMY);
+        addObject(tankEnemyBonus, 32*15, 32*11);     
 
         buildMap();
     }
@@ -114,5 +117,10 @@ public class BattleCity extends World
     public Map getMap()
     {
         return _map;
+    }
+    
+    public Camp getCamp()
+    {
+        return camp;
     }
 }

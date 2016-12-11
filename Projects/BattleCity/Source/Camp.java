@@ -17,6 +17,7 @@ public class Camp extends Actor
     private boolean inited = false;
     private int x = 16 + 352;
     private int y = 16 + 736;
+    private int _countBlock = 8;
     
     private static Camp _staticCamp;
     
@@ -44,57 +45,40 @@ public class Camp extends Actor
         //background.drawLine(480, 832, 480, 736);
         //background.drawLine(352, 736, 480, 736);
        
-        drawBrick();
+        drawWall(0);
         //drawStone();
         
         inited = true;
     }
    
-    public void drawBrick()
+    public void drawWall( int _typeWall )
     {
-        for (int k = 0; k < 8; k++)
+        for (int i = 0; i < _countBlock; i++)
             {
-                if ( k < 3 )
+                switch(_typeWall)
                 {
-                    _Wall[0][k] = new Brick();
-                    _BattleCityWorld.addObject(_Wall[0][k], x, y + k*32);
+                    case 0:
+                        _Wall[_typeWall][i] = new Brick();
+                    break;
+                    
+                    case 1:
+                        _Wall[_typeWall][i] = new Stone();
+                    break;
+                }
+                
+                if ( i < 3 )
+                {
+                    _BattleCityWorld.addObject(_Wall[_typeWall][i], x, y + i*32);
                 }
                 else
                 {  
-                    if ( k < 6)
+                    if ( i < 6)
                     {
-                        _Wall[0][k] = new Brick();
-                        _BattleCityWorld.addObject(_Wall[0][k], x + (k-2)*32, y);
+                        _BattleCityWorld.addObject(_Wall[_typeWall][i], x + (i-2)*32, y);
                     }
                     else
                     {
-                        _Wall[0][k] = new Brick();
-                        _BattleCityWorld.addObject(_Wall[0][k], x + 3*32, y + (k - 5)*32);
-                    }
-                }
-            }
-    }
-   
-    public void drawStone()
-    {
-        for (int k = 0; k < 8; k++)
-            {
-                if ( k < 3 )
-                {
-                    _Wall[1][k] = new Stone();
-                    _BattleCityWorld.addObject(_Wall[1][k], x, y + k*32);
-                }
-                else
-                {  
-                    if ( k < 6)
-                    {
-                        _Wall[1][k] = new Stone();
-                        _BattleCityWorld.addObject(_Wall[1][k], x + (k-2)*32, y);
-                    }
-                    else
-                    {
-                        _Wall[1][k] = new Stone();
-                        _BattleCityWorld.addObject(_Wall[1][k], x + 3*32, y + (k - 5)*32);
+                        _BattleCityWorld.addObject(_Wall[_typeWall][i], x + 3*32, y + (i - 5)*32);
                     }
                 }
             }
@@ -102,9 +86,9 @@ public class Camp extends Actor
     
     public void deleteStone()
     {
-        for (int k = 0; k < 8; k++)
+        for (int i = 0; i < _countBlock; i++)
             {
-                _BattleCityWorld.removeObject(_Wall[1][k]);
+                _BattleCityWorld.removeObject(_Wall[1][i]);
             }
     }
     

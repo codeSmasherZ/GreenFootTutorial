@@ -13,7 +13,8 @@ public class Tank extends Actor
     public enum Type {
         PLAYER_1, 
         PLAYER_2, 
-        ENEMY
+        ENEMY,
+        BONUS_ENEMY
     }
     
     public static final int RELOAD_TIME_LVL1 = 500;
@@ -72,6 +73,11 @@ public class Tank extends Actor
                 _animControl = new Animation(AnimListGrey, BattleCity.SCALE, animDelay);
                 _intelegence = new AI(this);
             break;
+            
+            case BONUS_ENEMY:
+                _animControl = new Animation(AnimListGrey, BattleCity.SCALE, animDelay);
+                _intelegence = new AI(this);
+            break;
         }
         
         _direction = Direction.RIGHT;
@@ -100,6 +106,17 @@ public class Tank extends Actor
             break;
             
             case ENEMY:
+                if(_distMoved >= _distNeeded * BattleCity.SCALE || !_moved){
+                    _distMoved = 0;
+                    _distNeeded =  9 * (Greenfoot.getRandomNumber(5) + 1);
+                    setDirection(_intelegence.makeDecision());
+                }
+                
+                makeFire();
+                moveForward();
+            break;
+            
+            case BONUS_ENEMY:
                 if(_distMoved >= _distNeeded * BattleCity.SCALE || !_moved){
                     _distMoved = 0;
                     _distNeeded =  9 * (Greenfoot.getRandomNumber(5) + 1);
@@ -140,6 +157,11 @@ public class Tank extends Actor
     
     public void hit()
     {
+        if( getType()== Type.BONUS_ENEMY )
+        {
+            SpawnBonus _spawnBonus = new SpawnBonus();
+            getWorld().addObject(_spawnBonus, 0, 0);
+        }
         destroy();
     }
     
@@ -188,6 +210,12 @@ public class Tank extends Actor
         Wall wall = (Wall)getOneIntersectingObject(Wall.class); 
         Camp camp = (Camp)getOneIntersectingObject(Camp.class); 
         Tank tank = (Tank)getOneIntersectingObject(Tank.class);
+        Bonus _bonus = (Bonus)getOneIntersectingObject(Bonus.class);
+        
+        if ( _bonus != null )
+        {
+            _bonus.pickedUP();
+        }
         
         boolean notTank = (tank == null);
         
@@ -280,6 +308,14 @@ public class Tank extends Actor
         //move(_speed);
         
         setLocation(getX() + _speed * _direction._x , getY() + _speed * _direction._y);
+        
+        //Bonus _bonus = (Bonus)getOneIntersectingObject(Bonus.class);
+        
+        /*if ( _bonus != null )
+        {
+            _bonus.pickedUP();
+        }*/
+        
         
         if(!canMove()) {
             setLocation(_prev_x, _prev_y);

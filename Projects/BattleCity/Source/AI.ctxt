@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=AI
-comment0.text=\n\ Write\ a\ description\ of\ class\ AI\ here.\n\ \n\ @author\ Fedor\ Kuzin\n\ @version\ 1\n
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ AI\ here.\r\n\ \r\n\ @author\ Fedor\ Kuzin\r\n\ @version\ 1\r\n
 comment1.params=tank
 comment1.target=AI(Tank)
 comment2.params=wrld\ x\ y

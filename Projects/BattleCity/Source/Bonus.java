@@ -1,4 +1,4 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
 /**
  * Write a description of class Bonus here.
@@ -15,17 +15,56 @@ public class Bonus extends Actor
         SHOVEL
     }
     
-    /**
-     * Act - do whatever the Bonus wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    public Bonus()
+    private BonusType _type = BonusType.SHOVEL;
+    private Camp _camp;
+    //private boolean inited = false;
+    private Timer _timer = new Timer();;
+    
+    public Bonus(BonusType type)
     {
+        _type = type;
+        _timer.setRange(5);
         Animation.scaleSprite(getImage(), BattleCity.SCALE);
     }
     
     public void act() 
     {
-        // Add your action code here.
-    }    
+        //
+    }
+    
+    public void pickedUP()
+    {
+        prize();
+        destroy();
+    }
+    
+    public void prize()
+    {
+        switch(_type)
+        {
+            case TANK:
+            break;
+            
+            case STAR:
+            break;
+            
+            case BOMB:
+            break;
+            
+            case SHOVEL:
+                Camp _camp = getWorldOfType(BattleCity.class).getCamp();
+                _timer.reset();
+                _camp.drawWall(1);
+                /*if ( _timer.outRange() )
+                {
+                    _camp.deleteStone();
+                }*/
+            break;
+        }
+    }
+    
+    private void destroy()
+    {
+        getWorld().removeObject(this);
+    }
 }
