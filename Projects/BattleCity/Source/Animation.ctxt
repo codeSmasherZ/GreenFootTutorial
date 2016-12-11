@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Animation
-comment0.text=\n\ Write\ a\ description\ of\ class\ Animation\ here.\n\ \n\ @author\ Fedor\ Kuzin\n\ @version\ 1\n
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Animation\ here.\r\n\ \r\n\ @author\ Fedor\ Kuzin\r\n\ @version\ 1\r\n
 comment1.params=frames_imgs\ scale\ frameTime
 comment1.target=Animation(java.lang.String[],\ int,\ long)
 comment10.params=
