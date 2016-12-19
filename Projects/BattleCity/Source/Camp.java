@@ -19,6 +19,9 @@ public class Camp extends Actor
     private int y = 16 + 736;
     private int _countBlock = 8;
     
+    private boolean _isStone = false;
+    private Timer _timer = new Timer();
+    
     private static Camp _staticCamp;
     
     public static Camp getCamp()
@@ -30,23 +33,30 @@ public class Camp extends Actor
     {
         Animation.scaleSprite(getImage(), BattleCity.SCALE);
         _staticCamp = this;
+        
+        _timer.setRange(10000);// Время действия бетонной стенки
     }
     
     public void act()
     {
-        if(inited) return;
+        if(!inited)
+        {
+            _BattleCityWorld = getWorld();
+            GreenfootImage background = _BattleCityWorld.getBackground();
+            background.setColor(Color.WHITE);
+            int size = background.getHeight();
+           
+            drawWall(0);
+        }
         
-        _BattleCityWorld = getWorld();
-        GreenfootImage background = _BattleCityWorld.getBackground();
-        background.setColor(Color.WHITE);
-        int size = background.getHeight();
-       
-        //background.drawLine(352, 832, 352, 736);
-        //background.drawLine(480, 832, 480, 736);
-        //background.drawLine(352, 736, 480, 736);
-       
-        drawWall(0);
-        //drawStone();
+        if(_isStone)
+        {
+                if ( _timer.outRange() )
+                {
+                    deleteStone();
+                }
+        }
+        
         
         inited = true;
     }
@@ -63,6 +73,7 @@ public class Camp extends Actor
                     
                     case 1:
                         _Wall[_typeWall][i] = new Stone();
+                        _isStone = true;
                     break;
                 }
                 
@@ -81,6 +92,7 @@ public class Camp extends Actor
                         _BattleCityWorld.addObject(_Wall[_typeWall][i], x + 3*32, y + (i - 5)*32);
                     }
                 }
+                _timer.reset();
             }
     }
     

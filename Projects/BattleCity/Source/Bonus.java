@@ -1,4 +1,6 @@
 import greenfoot.*;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Write a description of class Bonus here.
@@ -17,19 +19,37 @@ public class Bonus extends Actor
     
     private BonusType _type = BonusType.SHOVEL;
     private Camp _camp;
-    //private boolean inited = false;
-    private Timer _timer = new Timer();;
+    private boolean inited = false;
     
     public Bonus(BonusType type)
     {
         _type = type;
-        _timer.setRange(5);
-        Animation.scaleSprite(getImage(), BattleCity.SCALE);
+        
+        switch(_type)
+        {
+            case STAR:
+                setImage("bonus_star.png");
+                Animation.scaleSprite(getImage(), BattleCity.SCALE);
+            break;
+            
+            case BOMB:
+                setImage("bonus_bomb.png");
+                Animation.scaleSprite(getImage(), BattleCity.SCALE);
+            break;
+            
+            case SHOVEL:
+                setImage("bonus_shovel.png");
+                Animation.scaleSprite(getImage(), BattleCity.SCALE);
+            break;
+        }
+        
     }
     
     public void act() 
     {
-        //
+        if(!inited) _camp = getWorldOfType(BattleCity.class).getCamp();
+        
+        inited = true;
     }
     
     public void pickedUP()
@@ -42,23 +62,15 @@ public class Bonus extends Actor
     {
         switch(_type)
         {
-            case TANK:
-            break;
-            
             case STAR:
             break;
             
             case BOMB:
+                //List<Tank> tank = getWorldOfType(BattleCity.class).getObjects(Tank.class);
             break;
             
             case SHOVEL:
-                Camp _camp = getWorldOfType(BattleCity.class).getCamp();
-                _timer.reset();
                 _camp.drawWall(1);
-                /*if ( _timer.outRange() )
-                {
-                    _camp.deleteStone();
-                }*/
             break;
         }
     }

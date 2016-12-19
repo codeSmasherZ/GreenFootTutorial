@@ -309,13 +309,6 @@ public class Tank extends Actor
         
         setLocation(getX() + _speed * _direction._x , getY() + _speed * _direction._y);
         
-        //Bonus _bonus = (Bonus)getOneIntersectingObject(Bonus.class);
-        
-        /*if ( _bonus != null )
-        {
-            _bonus.pickedUP();
-        }*/
-        
         
         if(!canMove()) {
             setLocation(_prev_x, _prev_y);
