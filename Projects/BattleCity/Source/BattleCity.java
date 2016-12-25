@@ -80,28 +80,39 @@ public class BattleCity extends World
      */
     private void prepare()
     {
-        Tank tankPlayer1 = new Tank(Tank.Type.PLAYER_1);
+        Tank tankPlayer1 = new Tank(Tank.Type.PLAYER_1, false);
         addObject(tankPlayer1,225,800);
         
-        Tank tankPlayer2 = new Tank(Tank.Type.PLAYER_2);
+        Tank tankPlayer2 = new Tank(Tank.Type.PLAYER_2, false);
         addObject(tankPlayer2, 609, 800);
         
+        SpawnTank spwanTanks = new SpawnTank(4);
+        addObject(spwanTanks, 0, 0);
         
-        Tank tankEnemy = new Tank(Tank.Type.ENEMY);
+        /*for ( int i = 1; i < 3; i++ )
+        {
+            SpawnTank spwanTanks = new SpawnTank();
+            addObject(spwanTanks, 0, 0);
+        }*/
+        
+        /*Tank tankEnemy = new Tank(Tank.Type.ENEMY, false);
         addObject(tankEnemy, 32, 32);
         
-        Tank tankEnemy2 = new Tank(Tank.Type.ENEMY);
+        Tank tankEnemy2 = new Tank(Tank.Type.ENEMY,false);
         addObject(tankEnemy2, 32*15, 32);
         
-        Tank tankEnemy3 = new Tank(Tank.Type.ENEMY);
-        addObject(tankEnemy3, 32*22, 32);        
+        Tank tankEnemy3 = new Tank(Tank.Type.ENEMY,false);
+        addObject(tankEnemy3, 32*22, 32);*/        
         
         //Bonus bonus = new Bonus(); //тест бонуса лопата
         //addObject(bonus, 290, 736);
         
-        Tank tankEnemyBonus = new Tank(Tank.Type.BONUS_ENEMY);
-        addObject(tankEnemyBonus, 32*15, 32*11);     
-
+        //Tank tankEnemyBonus = new Tank(Tank.Type.BONUS_ENEMY, false);
+        //addObject(tankEnemyBonus, 32*15, 32*11); 
+        
+        //Tank tankEnemyBonus = new Tank(Tank.Type.ENEMY,true);
+        //addObject(tankEnemyBonus, 32*15, 32*11);
+        
         buildMap();
     }
     

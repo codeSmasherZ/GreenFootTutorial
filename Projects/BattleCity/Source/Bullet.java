@@ -77,10 +77,16 @@ public class Bullet extends Actor
         Tank tank = (Tank)getOneIntersectingObject(Tank.class);
         if(tank != null){
             if(tank.getType() != _ownerType){
-                tank.hit();
-                _vehicleDestroyed.play();
+                if(_owner.isPlayer() && tank.isPlayer()){
+                    _notPiercedSound.play();
+                }
+                else
+                {
+                    tank.hit();
+                    _vehicleDestroyed.play();
+                } 
             }else{
-                if(tank.isPlayer()){
+                if(_owner.isPlayer() && tank.isPlayer()){
                     _notPiercedSound.play();
                 }
             }

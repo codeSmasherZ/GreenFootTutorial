@@ -11,7 +11,6 @@ import java.util.List;
 public class Bonus extends Actor
 {
     public enum BonusType {
-        TANK, 
         STAR, 
         BOMB, 
         SHOVEL
@@ -20,6 +19,7 @@ public class Bonus extends Actor
     private BonusType _type = BonusType.SHOVEL;
     private Camp _camp;
     private boolean inited = false;
+    private World _wrld;
     
     public Bonus(BonusType type)
     {
@@ -47,8 +47,10 @@ public class Bonus extends Actor
     
     public void act() 
     {
-        if(!inited) _camp = getWorldOfType(BattleCity.class).getCamp();
-        
+        if(!inited){
+            _wrld = getWorld();
+            _camp = getWorldOfType(BattleCity.class).getCamp();
+        }
         inited = true;
     }
     
@@ -63,10 +65,26 @@ public class Bonus extends Actor
         switch(_type)
         {
             case STAR:
+                
             break;
             
             case BOMB:
-                //List<Tank> tank = getWorldOfType(BattleCity.class).getObjects(Tank.class);
+                List<Tank> tanks = getWorldOfType(BattleCity.class).getObjects(Tank.class);
+                Iterator it = tanks.iterator();
+        
+                if(it.hasNext()){
+                    while(it.hasNext())
+                    {
+                        Tank tank = (Tank)it.next();
+                        if ( !tank.isPlayer() )
+                        {
+                            tank.hit();
+                        }
+                    }
+                    
+                }    
+                destroy();
+                
             break;
             
             case SHOVEL:
@@ -77,6 +95,7 @@ public class Bonus extends Actor
     
     private void destroy()
     {
-        getWorld().removeObject(this);
+        _wrld.removeObject(this);
+        //getWorld().removeObject(this);
     }
 }

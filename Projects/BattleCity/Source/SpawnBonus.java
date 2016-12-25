@@ -28,12 +28,29 @@ public class SpawnBonus extends Actor
     {
         if(inited) return;
         drawBonus();
+        destroy();
         inited = true;
     }
     
     public void drawBonus()
     {
-        Bonus shovel = new Bonus(Bonus.BonusType.SHOVEL);
-        getWorld().addObject(shovel, x, y);
+        int num_Bonus_Type = Greenfoot.getRandomNumber(2);
+        switch(num_Bonus_Type)
+        {
+            case 0:
+                Bonus shovel = new Bonus(Bonus.BonusType.SHOVEL);
+                getWorld().addObject(shovel, x, y);
+            break;
+            
+            case 1:
+                Bonus bomb = new Bonus(Bonus.BonusType.BOMB);
+                getWorld().addObject(bomb, x, y);
+            break;
+        }
+    }
+    
+    private void destroy()
+    {
+        getWorld().removeObject(this);
     }
 }

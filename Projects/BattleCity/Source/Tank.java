@@ -24,6 +24,7 @@ public class Tank extends Actor
     private static final String[] AnimListYellow = {"player_tank_right_anim1.png", "player_tank_right_anim2.png"};
     private static final String[] AnimListGreen  = {"player2_tank_anim1.png", "player2_tank_anim2.png"};
     private static final String[] AnimListGrey   = {"enemy_tank_anim1.png", "enemy_tank_anim2.png"};
+    private static final String[] AnimListRed   = {"bonus_tank_anim1.png", "bonus_tank_anim2.png"};
     
     private Type _type = Type.ENEMY;
     
@@ -52,11 +53,14 @@ public class Tank extends Actor
     private AI _intelegence;
     private int _distMoved = 0;
     
+    private boolean isBonus = false;
+    
 
-    public Tank(Type type)
+    public Tank(Type type, boolean _isBonus)
     {
         _type = type;        
         _reloadTimer.setRange(RELOAD_TIME_LVL1);
+        isBonus = _isBonus;
         
         final int animDelay = 50;
         
@@ -70,14 +74,21 @@ public class Tank extends Actor
             break;
             
             case ENEMY:
-                _animControl = new Animation(AnimListGrey, BattleCity.SCALE, animDelay);
+                if (isBonus)
+                {
+                    _animControl = new Animation(AnimListRed, BattleCity.SCALE, animDelay);
+                } 
+                else
+                {
+                    _animControl = new Animation(AnimListGrey, BattleCity.SCALE, animDelay);
+                }
                 _intelegence = new AI(this);
             break;
             
-            case BONUS_ENEMY:
+            /*case BONUS_ENEMY:
                 _animControl = new Animation(AnimListGrey, BattleCity.SCALE, animDelay);
                 _intelegence = new AI(this);
-            break;
+            break;*/
         }
         
         _direction = Direction.RIGHT;
@@ -116,7 +127,7 @@ public class Tank extends Actor
                 moveForward();
             break;
             
-            case BONUS_ENEMY:
+            /*case BONUS_ENEMY:
                 if(_distMoved >= _distNeeded * BattleCity.SCALE || !_moved){
                     _distMoved = 0;
                     _distNeeded =  9 * (Greenfoot.getRandomNumber(5) + 1);
@@ -125,7 +136,7 @@ public class Tank extends Actor
                 
                 makeFire();
                 moveForward();
-            break;
+            break;*/
         }
     }    
     
@@ -157,7 +168,8 @@ public class Tank extends Actor
     
     public void hit()
     {
-        if( getType()== Type.BONUS_ENEMY )
+        //if( getType()== Type.BONUS_ENEMY )
+        if( isBonus )
         {
             SpawnBonus _spawnBonus = new SpawnBonus();
             getWorld().addObject(_spawnBonus, 0, 0);
@@ -212,7 +224,7 @@ public class Tank extends Actor
         Tank tank = (Tank)getOneIntersectingObject(Tank.class);
         Bonus _bonus = (Bonus)getOneIntersectingObject(Bonus.class);
         
-        if ( _bonus != null )
+        if ( _bonus != null && isPlayer() )
         {
             _bonus.pickedUP();
         }
